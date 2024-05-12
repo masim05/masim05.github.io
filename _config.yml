@@ -21,7 +21,7 @@
 title: masim05 github pages
 #email: your-email@example.com
 description: >- # this means to ignore newlines until "baseurl:"
-  masim05's notes, thoughts, how-to's
+  software engineering, devops, engineering management, crypto
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://masim05.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 #twitter_username: jekyllrb
