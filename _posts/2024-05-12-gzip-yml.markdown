@@ -2,7 +2,7 @@
 layout: post
 title:  "Don't load network, use gzip"
 date:   2024-05-12 21:16:03 +0700
-categories: devops nginx gzip galactica zero-gravity
+categories: crypto
 ---
 
 ### Context
