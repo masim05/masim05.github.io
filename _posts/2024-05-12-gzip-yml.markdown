@@ -1,0 +1,126 @@
+---
+layout: post
+title:  "Don't load network, use gzip"
+date:   2024-05-12 21:16:03 +0700
+categories: devops nginx gzip galactica zero-gravity
+---
+
+### Context
+There are many services for crypto network nodes which provide
+public endpoints: API, RPC and sometimes gPRC. While browsing
+swagger documentation I found that the pages are loaded pretty
+slow. Let's take a look at swagger for Galactica API served by
+[IT-Rocket](https://itrocket.net/), it took 13s to load the page:
+![itrocket01](/assets/img/itrocket01.png)
+As one can see, most of the time is spent on fetching
+`openapi.yml`.  Looks like the issue is with my Internet provider,
+since from remote servers I got the same content within 500ms.
+But I read the docs from my local machine, so I tried to understand
+what I could do. Another noticeable point is it's size: 2.4MB.
+Usually text files can be compressed pretty well, upto 10 times,
+which can improve situation dramatically. Compression is
+controlled by client header `'Accept-Encoding: gzip'`, let's
+check it:
+```bash
+% curl 'https://galactica-testnet-api.itrocket.net/static/openapi.yml' \
+  -H 'accept: application/json,*/*' > /dev/null
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 2331k  100 2331k    0     0  86756      0  0:00:27  0:00:27 --:--:-- 66983
+```
+```
+% curl 'https://galactica-testnet-api.itrocket.net/static/openapi.yml' \
+  -H 'Accept-Encoding: gzip' \
+  -H 'accept: application/json,*/*' > /dev/null
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 2331k  100 2331k    0     0    99k      0  0:00:23  0:00:23 --:--:--  181k
+```
+
+Unfortunately, server doesn't react on the header. Let's compare with another
+public endpoint:
+```
+% curl 'https://api.galactica.crptmax.com/static/openapi.yml' \
+  -H 'accept: application/json,*/*' > /dev/null
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 2331k  100 2331k    0     0   577k      0  0:00:04  0:00:04 --:--:--  609k
+```
+```
+% curl 'https://api.galactica.crptmax.com/static/openapi.yml' \
+  -H 'Accept-Encoding: gzip' \                 
+  -H 'accept: application/json,*/*' > /dev/null
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  278k    0  278k    0     0   116k      0 --:--:--  0:00:02 --:--:--  116k
+```
+
+The difference is clear: 278K/2s vs 2.3M/4s.
+
+### Configuration
+[crptmax.com](https://crptmax.com/) uses [Nginx](https://www.nginx.com/) to proxy
+all HTTP traffic, let's check how to set it up.
+
+Compression is enabled by default in Nginx:
+```
+$ cat /etc/nginx/nginx.conf
+...
+http {
+	...
+	##
+	# Gzip Settings
+	##
+
+	gzip on;
+
+	# gzip_vary on;
+	# gzip_proxied any;
+	# gzip_comp_level 6;
+	# gzip_buffers 16 8k;
+	# gzip_http_version 1.1;
+	gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+	...
+}
+```
+
+However, it is required to add `application/x-yaml` mime type to enable
+compression for `openapi.yml`:
+```
+gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+```
+After any configuration change, check it is correct and reload:
+```
+$ sudo nginx -t && sudo nginx -s reload
+```
+
+That's it, compression for `*.yml` is enabled.
+
+#### PS.
+Compression on IT-Rockets works for RPC, let's check
+Zero-gravity public endpoints:
+```
+$ time curl 'https://og-testnet-rpc.itrocket.net/dump_consensus_state' \
+  -H 'accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7' \
+  > /dev/null
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  649k    0  649k    0     0  1652k      0 --:--:-- --:--:-- --:--:-- 1656k
+
+real	0m0.406s
+user	0m0.090s
+sys	0m0.008s
+```
+```
+$ time curl 'https://og-testnet-rpc.itrocket.net/dump_consensus_state' \
+  -H 'Accept-Encoding: gzip' \
+  -H 'accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7' \
+  > /dev/null
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  127k    0  127k    0     0   369k      0 --:--:-- --:--:-- --:--:--  369k
+
+real	0m0.360s
+user	0m0.083s
+sys	0m0.016s
+```
+127K vs 649K with almost the same time.
