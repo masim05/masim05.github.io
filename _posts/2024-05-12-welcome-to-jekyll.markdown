@@ -27,3 +27,35 @@ Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most ou
 [jekyll-docs]: https://jekyllrb.com/docs/home
 [jekyll-gh]:   https://github.com/jekyll/jekyll
 [jekyll-talk]: https://talk.jekyllrb.com/
+
+Markdown cheatsheet is [here](https://gist.github.com/roachhd/779fa77e9b90fe945b0c).
+
+Shell example
+```bash
+grpcurl grpc.galactica.crptmax.com:22443 list
+curl -X GET "https://api.galactica.crptmax.com/cosmos/staking/v1beta1/validators?status=BOND_STATUS_BONDED"
+```
+
+Config example
+```
+mail {
+	# See sample authentication script at:
+	# http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript
+
+	# auth_http localhost/auth.php;
+	# pop3_capabilities "TOP" "USER";
+	# imap_capabilities "IMAP4rev1" "UIDPLUS";
+
+	server {
+		listen     localhost:110;
+		protocol   pop3;
+		proxy      on;
+	}
+
+	server {
+		listen     localhost:143;
+		protocol   imap;
+		proxy      on;
+	}
+}
+```
