@@ -30,5 +30,6 @@ But one should stay on the safe side.
 ### Alternative solution
 Before finding the solution above, I implemented almost the same script,
 you can find it [here](https://github.com/masim05/play-web3/tree/main/utils/withdraw).
+It does not execute any scripts downloaded from anywhere.
 One more benefit, it is extendable in terms of networks, at the moment it support Galactica and
 Zero-gravity.
