@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Skip routine, use auto withdraw!"
+title:  "Skip routine, use auto withdraw"
 date:   2024-05-13 10:21:03 +0700
 categories: crypto
 ---
