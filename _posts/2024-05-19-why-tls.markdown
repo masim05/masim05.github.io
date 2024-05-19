@@ -76,7 +76,7 @@ cosmos.authz.v1beta1.Query
 
 It works, but there is no guarantee of authenticity, integrity or
 privacy. Let's demonstrate that simple traffic sniffing can show
-the content of reponse (to breach authenticity or integrity is
+the content of response (to breach authenticity or integrity is
 not that simple, but possible). Run `tcpdump` in one terminal:
 ```bash
 % sudo tcpdump -A -s 1000 port 30090
