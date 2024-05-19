@@ -1,0 +1,122 @@
+---
+layout: post
+title:  "Why TLS?"
+date:   2024-05-19 10:21:03 +0700
+categories: crypto
+---
+
+### Context
+Decentralization is one of the key concepts of WEB3. A good example of decentralization
+is an active set of validating nodes in Proof-of-Stake networks which usually contains
+100 or more validators. Network will keep operating if one or several of them go down.
+Apart from that, there are many explorers which provide network information consuming
+data from nodes and presentng it in human readable format. Explorers also can consume
+data from any node of the network and switch between them in case of downtime.
+
+In order to support decentralization many node maintainers expose public APIs and share
+their addresses on services websites. A couple of examples are below.
+
+[Galactica by ITRocket](https://itrocket.net/services/testnet/galactica/):
+![itrocket_galactica](/assets/img/itrocket_galactica.png)
+
+[Zero-Gravity by NODERS](https://noders.services/testnet-networks/og):
+![noders_0g](/assets/img/noders_0g.png)
+
+### Challenges
+Decentralization brings not only benefits, but also challenges:
+ - authenticity is required
+ - integrity is required
+
+Authenticity stands for proof of identity. It means, one should be sure they are
+communicating with someone they want to, and not someone else.
+
+Integrity means information remains unaltered and free from tampering.
+
+### Solution
+Telecom industry faced the challenges several decades ago and, luckily, there is a
+solution for it. [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security)
+protocol brings authenticity, integrity and several more benefits.
+
+Nowadays, there are many ways to use TLS: hosting services provide this capability,
+also one can setup their web servers to enforce TLS.
+
+You might notice an icon in some browsers indicating TLS is enabled. This is how
+it looks in Google Chrome:
+![noders_tls](/assets/img/noders_tls.png)
+
+One can check the same indication for node endpoints working upon HTTP protocol,
+for example, `rpc` endpoints:
+![itrocket_aligned](/assets/img/itrocket_aligned.png)
+
+I saw quite a good number of HTTP based endpoints of validating nodes and, good
+news, they all utilise TLS.
+
+The situation is not that bright if we take a look at gRPC endpoints. To check
+it, one can use a great tool, `grpcurl`, a `curl`-analog for gRPC.
+```bash
+% grpcurl band-grpc.noders.services:30090 list
+Failed to dial target host "band-grpc.noders.services:30090": tls: first record does not look like a TLS handshake
+```
+
+When TLS is setup properly there is no such an error:
+```bash
+% grpcurl grpc.band.crptmax.com:26443 list
+cosmos.auth.v1beta1.Query
+cosmos.authz.v1beta1.Query
+...
+```
+
+Let's forbid `grpcurl` to use TLS (`-plaintext` option):
+```bash
+% grpcurl -plaintext band-grpc.noders.services:30090 list
+cosmos.auth.v1beta1.Query
+cosmos.authz.v1beta1.Query
+...
+```
+
+It works, but there is no guarantee of authenticity, integrity or
+privacy. Let's demonstrate that simple traffic sniffing can show
+the content of reponse (to breach authenticity or integrity is
+not that simple, but possible). Run `tcpdump` in one terminal:
+```bash
+% sudo tcpdump -A -s 1000 port 30090
+```
+And query node in another:
+```bash
+% grpcurl -plaintext band-grpc.noders.services:30090 list
+...
+```
+In the first terminal we will see:
+```bash
+% sudo tcpdump -A -s 1000 port 30090
+tcpdump: data link type PKTAP
+tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
+listening on pktap, link-type PKTAP (Apple DLT_PKTAP), snapshot length 1000 bytes
+...
+.....4Z..............)..........$..:.*2..
+.
+.cosmos.auth.v1beta1.Query
+.
+.cosmos.authz.v1beta1.Query
+.
+.cosmos.bank.v1beta1.Query
+2
+0cosmos.base.reflection.v1beta1.ReflectionService
+3
+...
+```
+So everyone who can sniff tcp packets can see the requests and responses.
+For validating node APIs is it not a big problem since they serve open
+information, it was just a demonstration that TLS is off.
+
+### Are you kidding me? Is it an issue?
+Integrity is a way more important for validating nodes than privacy. Without
+it, we can't trust any information we get from nodes, could it be your
+balance, active set of validating nodes or current height of the chain.
+
+Several years ago, when HTTPS was not enforced everywhere (and thus no
+intergity was guaranteed), some internet service providers used to inject js
+code which showed ads... Yes, they modified content of web pages in order to
+show their advertisement. It happened here and there, check
+[this](https://stackoverflow.com/questions/50279118/isp-injected-ads-prevent-js-from-running-properly)
+stackoverflow thread highlighting it.
