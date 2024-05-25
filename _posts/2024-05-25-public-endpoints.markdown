@@ -223,8 +223,8 @@ wscat --connect ws://rpc.galactica-t.example.com/websocket # should show json
 
 ### Setup TLS
 The last step of the setup is TLS. In order to enable it we need a valid
-certificate. There is a [letsencrypt](https://letsencrypt.org/) which can
-issue a free certificate. This
+certificate. There is a [letsencrypt](https://letsencrypt.org/) project
+which can issue a free certificate. This
 [article](https://www.f5.com/company/blog/nginx/using-free-ssltls-certificates-from-lets-encrypt-with-nginx)
 is amazing guide how to setup Nginx with letsencrypt certificate. Certbot
 will also update config files, one should make sure they are fine
