@@ -29,10 +29,12 @@ github_username:  masim05
 
 # Build settings
 theme: minima
-plugins:
-  - jekyll-feed
+#plugins:
+#  - jekyll-feed
 
 markdown: kramdown
+
+#permalink: pretty
 
 # Exclude from processing.
 # The following items will not be processed, by default.
