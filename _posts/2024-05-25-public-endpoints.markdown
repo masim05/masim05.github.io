@@ -217,8 +217,8 @@ and `rpc.galactica-t.example.com:8080`:
 curl -I http://api.galactica-t.example.com # should return 200 OK
 curl http://rpc.galactica-t.example.com/status | jq . # should show json
 grpcurl -plaintext grpc.galactica-t.example.com:8080 list # should show list of methods
-wscat --connect ws://rpc.galactica-t.example.com/websocket # should show json
-> { "jsonrpc": "2.0", "method": "status", "id": 1 }
+wscat --connect ws://rpc.galactica-t.example.com/websocket \
+-x { "jsonrpc": "2.0", "method": "status", "id": 1 } # should show json
 ```
 
 ### Setup TLS
@@ -315,8 +315,8 @@ Since now endpoints should be available with TLS:
 curl -I https://api.galactica-t.example.com # should return 200 OK
 curl https://rpc.galactica-t.example.com/status | jq . # should show json
 grpcurl grpc.galactica-t.example.com:9443 list # should show list of methods
-wscat --connect wss://rpc.galactica-t.example.com/websocket # should show json
-> { "jsonrpc": "2.0", "method": "status", "id": 1 }
+wscat --connect wss://rpc.galactica-t.example.com/websocket \
+-x { "jsonrpc": "2.0", "method": "status", "id": 1 } # should show json
 ```
 
 That's it. REST, RPC (including websocket) and gRPC endpoints are working
