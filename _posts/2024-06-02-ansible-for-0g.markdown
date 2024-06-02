@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Setup zero gravity node with Ansible"
+title:  "Setup Zero Gravity node with Ansible"
 date:   2024-06-02 08:32:17 +0700
 categories: crypto
 ---
