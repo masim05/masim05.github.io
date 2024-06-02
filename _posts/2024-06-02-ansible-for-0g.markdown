@@ -5,6 +5,8 @@ date:   2024-06-02 08:32:17 +0700
 categories: crypto
 ---
 
+![ansible_0g](/assets/img/ansible_0g.jpg)
+
 Many services portals exist, most of them provide instructions about validating
 nodes installation. However, when you think about redundancy and scaling,
 the process must be automated, otherwise you will spend your life in running
