@@ -5,7 +5,7 @@ date:   2024-06-16 21:46:17 +0700
 categories: crypto
 ---
 
-When operating production you do want to know about problems proactively, but
+When operating production, you do want to know about problems proactively, but
 not from your customers. This is the point where monitoring jumps in.
 
 Monitoring is usually devided into two parts: system metrics and business
