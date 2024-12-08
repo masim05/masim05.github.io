@@ -12,7 +12,7 @@ I will be happy to join your testnet as an early entrant or your team to combine
 ### Validating (mainnets first)
 [![Band](/assets/img/band.svg 'Band')](https://band.explorers.guru/validator/bandvaloper1vamfrqdhhjurj3nu4mzev8q2xw2j9prq0yxe8e)
 
-[![Galactica](/assets/img/galactica.svg 'Galactica')](https://ping.pfc.zone/galactica-testnet/staking/galavaloper1nak4arm625uj3qleekh0760wtjamczuse0yrz0)
+[![Galactica](/assets/img/galactica.svg 'Galactica')](https://testnet.itrocket.net/galactica/staking/galavaloper1nak4arm625uj3qleekh0760wtjamczuse0yrz0)
 [![0g](/assets/img/0g.jpeg 'og')](https://testnet.0g.explorers.guru/validator/0gvaloper1nak4arm625uj3qleekh0760wtjamczusrkvynu)
 [![Arkeo](/assets/img/arkeo.png 'Arkeo')](https://testnet.arkeo.explorers.guru/validator/tarkeovaloper1d8jv29e50yka5u8062kfyframrw5fwm95xtyk4)
 
