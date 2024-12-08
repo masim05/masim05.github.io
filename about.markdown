@@ -20,7 +20,7 @@ I will be happy to join your testnet as an early entrant or your team to combine
 
 ### Validating archive
 [![Arkeo](/assets/img/arkeo.png 'Arkeo')](https://testnet.arkeo.explorers.guru/validator/tarkeovaloper103l27gd5yw94qu8w0qhppzfd2ayef6x5ljjszq)
-[![0g](/assets/img/0g.jpeg 'og')](https://explorer.validatorvn.com/OG-Testnet/staking/evmosvaloper1nak4arm625uj3qleekh0760wtjamczustyfuhv)tarkeovaloper103l27gd5yw94qu8w0qhppzfd2ayef6x5ljjszq)
+[![0g](/assets/img/0g.jpeg 'og')](https://explorer.validatorvn.com/OG-Testnet/staking/evmosvaloper1nak4arm625uj3qleekh0760wtjamczustyfuhv)
 [![AlignedLayer](/assets/img/alignedlayer.png 'AlignedLayer')](https://testnet.alignedlayer.explorers.guru/validator/alignedvaloper1yaaxdjppr9h2x8v7nrum7utxy66772eks33rmy)
 ![Cascadia](/assets/img/cascadia.jpeg)
 ![Entangle](/assets/img/entangle.png)
