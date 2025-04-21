@@ -59,3 +59,9 @@ mail {
 	}
 }
 ```
+
+Run `jekyll` locally:
+
+```bash
+bundle exec jekyll serve
+```
