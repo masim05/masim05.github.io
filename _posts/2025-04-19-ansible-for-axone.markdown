@@ -5,6 +5,8 @@ date:   2025-04-19 15:14:27 +0700
 categories: crypto
 ---
 
+<!-- markdownlint-configure-file { "MD026": false } -->
+
 ![ansible_axone](/assets/img/ansible_axone.png)
 
 ### Motivation
