@@ -11,7 +11,7 @@ categories: crypto
 
 When operating any production information system, one should think about high
 availability and DDoS protection. In context of PoS validators, both can't be
-acheived without having several nodes. More than that, sometimes you just need
+achieved without having several nodes. More than that, sometimes you just need
 to move your nodes to new VPS/VDS/DS. Having said that, one can state that it
 is worth investing in automation of blockchain nodes' bootstrap. Ansible is a
 great tool for it, and in this article I will show how to install, setup and
