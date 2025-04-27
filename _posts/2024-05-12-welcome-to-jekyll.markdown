@@ -4,6 +4,9 @@ title:  "Welcome to Jekyll!"
 date:   2024-05-12 14:36:03 +0700
 categories: jekyll update
 ---
+
+<!-- markdownlint-configure-file { "MD018": false } -->
+
 You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
 
 Jekyll requires blog post files to be named according to the following format:
@@ -31,32 +34,32 @@ Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most ou
 Markdown cheatsheet is [here](https://gist.github.com/roachhd/779fa77e9b90fe945b0c).
 
 Shell example
+
 ```bash
 grpcurl grpc.galactica.crptmax.com:22443 list
 curl -X GET "https://api.galactica.crptmax.com/cosmos/staking/v1beta1/validators?status=BOND_STATUS_BONDED"
 ```
 
 Config example
-```
+
+```yaml
 mail {
-	# See sample authentication script at:
-	# http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript
+    # See sample authentication script at:
+    # http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript
+    # auth_http localhost/auth.php;
+    # pop3_capabilities "TOP" "USER";
+    # imap_capabilities "IMAP4rev1" "UIDPLUS";
+    server {
+        listen     localhost:110;
+        protocol   pop3;
+        proxy      on;
+    }
 
-	# auth_http localhost/auth.php;
-	# pop3_capabilities "TOP" "USER";
-	# imap_capabilities "IMAP4rev1" "UIDPLUS";
-
-	server {
-		listen     localhost:110;
-		protocol   pop3;
-		proxy      on;
-	}
-
-	server {
-		listen     localhost:143;
-		protocol   imap;
-		proxy      on;
-	}
+    server {
+        listen     localhost:143;
+        protocol   imap;
+        proxy      on;
+    }
 }
 ```
 
